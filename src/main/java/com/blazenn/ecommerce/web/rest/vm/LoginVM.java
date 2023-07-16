@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
  */
 public class LoginVM {
 
-    @NotNull
+    // @NotNull
     @Size(min = 1, max = 50)
     private String username;
 
@@ -17,6 +17,22 @@ public class LoginVM {
     private String password;
 
     private Boolean rememberMe;
+
+    @NotNull
+    @Size(min=5, max=100)
+    private String email;
+
+    public Boolean getRememberMe() {
+        return this.rememberMe;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;
