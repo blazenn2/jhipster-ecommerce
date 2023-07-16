@@ -1,0 +1,38 @@
+entity Address {
+  street String,
+  city String,
+  state String,
+  postalCode String
+}
+
+entity Order {
+  orderDate Instant required,
+  totalAmount BigDecimal required
+}
+
+entity OrderItem {
+  quantity Integer required,
+  unitPrice BigDecimal required
+}
+
+entity Product {
+  name String required,
+  description String,
+  price BigDecimal required
+}
+
+entity Category {
+  name String required,
+  description String
+}
+
+relationship OneToMany {
+  Order{orderItems} to OrderItem{order}
+  Product{orderItems} to OrderItem{product}
+  Category{products} to Product{category}
+}
+
+paginate *  with pagination
+filter all
+dto * with mapstruct
+service all with serviceClass

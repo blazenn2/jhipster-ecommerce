@@ -1,0 +1,37 @@
+{
+  "generator-jhipster": {
+    "promptValues": {
+      "packageName": "com.blazenn.ecommerce"
+    },
+    "jhipsterVersion": "6.9.1",
+    "applicationType": "monolith",
+    "baseName": "ecomm",
+    "packageName": "com.blazenn.ecommerce",
+    "packageFolder": "com/blazenn/ecommerce",
+    "serverPort": "8080",
+    "authenticationType": "jwt",
+    "cacheProvider": "no",
+    "websocket": false,
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "searchEngine": false,
+    "messageBroker": false,
+    "serviceDiscoveryType": false,
+    "buildTool": "maven",
+    "enableSwaggerCodegen": false,
+    "jwtSecretKey": "YzU3YjdmNjI4YmFiYWIwYWM1ODU1MDc5MGNhMGFlNzVjNmQ3ZTMzZTkwMjdmOGZjM2Q2NDJiYmY4YmM2NmNkMDc2MzY2ZWRmYTQxODNlNDU0ZjA3NzE1ZTUyYmQ2MmIwNzZmMmJkZmI0ZDJjMDNjZTdmMGIzYTVmOTY1M2NjOTA=",
+    "embeddableLaunchScript": false,
+    "useSass": true,
+    "clientPackageManager": "npm",
+    "skipClient": true,
+    "creationTimestamp": 1689527509126,
+    "testFrameworks": [],
+    "jhiPrefix": "jhi",
+    "entitySuffix": "",
+    "dtoSuffix": "DTO",
+    "otherModules": [],
+    "enableTranslation": false,
+    "blueprints": []
+  }
+}
