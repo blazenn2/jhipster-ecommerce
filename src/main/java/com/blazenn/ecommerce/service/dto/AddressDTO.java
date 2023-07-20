@@ -2,12 +2,16 @@ package com.blazenn.ecommerce.service.dto;
 
 import java.io.Serializable;
 
+import com.blazenn.ecommerce.domain.User;
+
 /**
  * A DTO for the {@link com.blazenn.ecommerce.domain.Address} entity.
  */
 public class AddressDTO implements Serializable {
     
     private Long id;
+
+    private Long userId;
 
     private String street;
 
@@ -17,6 +21,25 @@ public class AddressDTO implements Serializable {
 
     private String postalCode;
 
+    public User user;
+
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
+
+    public Long getUserId() {
+        return this.userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
     
     public Long getId() {
         return id;
