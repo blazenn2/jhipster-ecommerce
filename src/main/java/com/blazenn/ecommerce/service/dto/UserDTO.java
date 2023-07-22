@@ -3,6 +3,7 @@ package com.blazenn.ecommerce.service.dto;
 import com.blazenn.ecommerce.config.Constants;
 import com.blazenn.ecommerce.domain.Address;
 import com.blazenn.ecommerce.domain.Authority;
+import com.blazenn.ecommerce.domain.Order;
 import com.blazenn.ecommerce.domain.User;
 
 import javax.validation.constraints.*;
@@ -53,14 +54,7 @@ public class UserDTO {
 
     private Set<Address> addresses = new HashSet<Address>();
 
-    public Set<Address> getAddresses() {
-        return this.addresses;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
-    }
-
+    private Set<Order> orders = new HashSet<>();
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -81,8 +75,9 @@ public class UserDTO {
         this.lastModifiedDate = user.getLastModifiedDate();
         this.addresses = user.getAddresses().stream().collect(Collectors.toSet());
         this.authorities = user.getAuthorities().stream()
-            .map(Authority::getName)
-            .collect(Collectors.toSet());
+                .map(Authority::getName)
+                .collect(Collectors.toSet());
+        this.orders = user.getOrders().stream().collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -189,22 +184,38 @@ public class UserDTO {
         this.authorities = authorities;
     }
 
+    public Set<Address> getAddresses() {
+        return this.addresses;
+    }
+
+    public void setAddresses(Set<Address> addresses) {
+        this.addresses = addresses;
+    }
+
+    public Set<Order> getOrders() {
+        return this.orders;
+    }
+
+    public void setOrders(Set<Order> orders) {
+        this.orders = orders;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
         return "UserDTO{" +
-            "login='" + login + '\'' +
-            ", firstName='" + firstName + '\'' +
-            ", lastName='" + lastName + '\'' +
-            ", email='" + email + '\'' +
-            ", imageUrl='" + imageUrl + '\'' +
-            ", activated=" + activated +
-            ", langKey='" + langKey + '\'' +
-            ", createdBy=" + createdBy +
-            ", createdDate=" + createdDate +
-            ", lastModifiedBy='" + lastModifiedBy + '\'' +
-            ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
-            "}";
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
+                ", activated=" + activated +
+                ", langKey='" + langKey + '\'' +
+                ", createdBy=" + createdBy +
+                ", createdDate=" + createdDate +
+                ", lastModifiedBy='" + lastModifiedBy + '\'' +
+                ", lastModifiedDate=" + lastModifiedDate +
+                ", authorities=" + authorities +
+                "}";
     }
 }
