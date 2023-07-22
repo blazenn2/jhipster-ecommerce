@@ -1,12 +1,13 @@
 package com.blazenn.ecommerce.service.dto;
 
 import com.blazenn.ecommerce.config.Constants;
-
+import com.blazenn.ecommerce.domain.Address;
 import com.blazenn.ecommerce.domain.Authority;
 import com.blazenn.ecommerce.domain.User;
 
 import javax.validation.constraints.*;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -50,6 +51,17 @@ public class UserDTO {
 
     private Set<String> authorities;
 
+    private Set<String> addresses = new HashSet<String>();
+
+    public Set<String> getAddresses() {
+        return this.addresses;
+    }
+
+    public void setAddresses(Set<String> addresses) {
+        this.addresses = addresses;
+    }
+
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -67,6 +79,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
+        this.addresses = user.getAddresses().stream().map(Address::getStreet).collect(Collectors.toSet());
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
