@@ -3,6 +3,9 @@ package com.blazenn.ecommerce.domain;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 /**
@@ -31,9 +34,11 @@ public class Address implements Serializable {
     private String postalCode;
 
     @Column(name = "user_id")
+    @JsonIgnore
     private Long userId;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
