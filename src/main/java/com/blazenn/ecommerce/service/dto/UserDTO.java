@@ -51,13 +51,13 @@ public class UserDTO {
 
     private Set<String> authorities;
 
-    private Set<String> addresses = new HashSet<String>();
+    private Set<Address> addresses = new HashSet<Address>();
 
-    public Set<String> getAddresses() {
+    public Set<Address> getAddresses() {
         return this.addresses;
     }
 
-    public void setAddresses(Set<String> addresses) {
+    public void setAddresses(Set<Address> addresses) {
         this.addresses = addresses;
     }
 
@@ -79,7 +79,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.addresses = user.getAddresses().stream().map(Address::getStreet).collect(Collectors.toSet());
+        this.addresses = user.getAddresses().stream().collect(Collectors.toSet());
         this.authorities = user.getAuthorities().stream()
             .map(Authority::getName)
             .collect(Collectors.toSet());
