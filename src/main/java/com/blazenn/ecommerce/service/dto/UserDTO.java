@@ -7,6 +7,8 @@ import com.blazenn.ecommerce.domain.Order;
 import com.blazenn.ecommerce.domain.User;
 
 import javax.validation.constraints.*;
+
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
@@ -56,6 +58,8 @@ public class UserDTO {
 
     private Set<Order> orders = new HashSet<>();
 
+        private BigDecimal totalSpending;
+
     public UserDTO() {
         // Empty constructor needed for Jackson.
     }
@@ -78,6 +82,7 @@ public class UserDTO {
                 .map(Authority::getName)
                 .collect(Collectors.toSet());
         this.orders = user.getOrders().stream().collect(Collectors.toSet());
+        this.totalSpending = this.orders.stream().map(val -> val.getTotalAmount()).reduce(BigDecimal.ZERO, (sum, num) -> sum.add(num));;
     }
 
     public Long getId() {
@@ -198,6 +203,15 @@ public class UserDTO {
 
     public void setOrders(Set<Order> orders) {
         this.orders = orders;
+    }
+
+
+    public BigDecimal getTotalSpending() {
+        return this.totalSpending;
+    }
+
+    public void setTotalSpending(BigDecimal totalSpending) {
+        this.totalSpending = totalSpending;
     }
 
     // prettier-ignore
