@@ -4,6 +4,8 @@ package com.blazenn.ecommerce.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -33,6 +35,18 @@ public class Order implements Serializable {
 
     @OneToMany(mappedBy = "order")
     private Set<OrderItem> orderItems = new HashSet<>();
+
+    @ManyToOne
+    @JsonIgnore
+    private User user;
+
+    public User getUser() {
+        return this.user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {

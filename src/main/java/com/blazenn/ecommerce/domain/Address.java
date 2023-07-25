@@ -38,7 +38,7 @@ public class Address implements Serializable {
 
     @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(insertable = false, updatable = false)
     private User user;
 
     public User getUser() {
