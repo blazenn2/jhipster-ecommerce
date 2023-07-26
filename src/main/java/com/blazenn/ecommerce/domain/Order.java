@@ -34,6 +34,7 @@ public class Order implements Serializable {
     private BigDecimal totalAmount;
 
     @OneToMany(mappedBy = "order")
+    @JsonIgnore
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @ManyToOne

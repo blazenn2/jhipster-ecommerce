@@ -1,5 +1,6 @@
 package com.blazenn.ecommerce.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -31,6 +32,7 @@ public class OrderItem implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "orderItems", allowSetters = true)
+    @JsonIgnore
     private Order order;
 
     @ManyToOne
