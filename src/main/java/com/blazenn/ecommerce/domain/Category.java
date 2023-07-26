@@ -4,6 +4,8 @@ package com.blazenn.ecommerce.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +31,7 @@ public class Category implements Serializable {
     private String description;
 
     @OneToMany(mappedBy = "category")
+    @JsonIgnore
     private Set<Product> products = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

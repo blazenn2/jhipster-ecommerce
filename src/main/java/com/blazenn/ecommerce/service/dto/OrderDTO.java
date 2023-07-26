@@ -1,7 +1,12 @@
 package com.blazenn.ecommerce.service.dto;
 
 import java.time.Instant;
+import java.util.Set;
+
 import javax.validation.constraints.*;
+
+import com.blazenn.ecommerce.domain.OrderItem;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -18,6 +23,16 @@ public class OrderDTO implements Serializable {
     @NotNull
     private BigDecimal totalAmount;
 
+    private Set<OrderItem> orderItems;
+
+
+    public Set<OrderItem> getOrderItems() {
+        return this.orderItems;
+    }
+
+    public void setOrderItems(Set<OrderItem> orderItems) {
+        this.orderItems = orderItems;
+    }
     
     public Long getId() {
         return id;

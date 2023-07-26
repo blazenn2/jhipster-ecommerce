@@ -1,6 +1,9 @@
 package com.blazenn.ecommerce.service.dto;
 
 import javax.validation.constraints.*;
+
+import com.blazenn.ecommerce.domain.Category;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -8,7 +11,7 @@ import java.math.BigDecimal;
  * A DTO for the {@link com.blazenn.ecommerce.domain.Product} entity.
  */
 public class ProductDTO implements Serializable {
-    
+
     private Long id;
 
     @NotNull
@@ -19,9 +22,10 @@ public class ProductDTO implements Serializable {
     @NotNull
     private BigDecimal price;
 
+    private Category category;
 
-    private Long categoryId;
-    
+    // private Long categoryId;
+
     public Long getId() {
         return id;
     }
@@ -54,13 +58,13 @@ public class ProductDTO implements Serializable {
         this.price = price;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
+    // public Long getCategoryId() {
+    //     return categoryId;
+    // }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
+    // public void setCategoryId(Long categoryId) {
+    //     this.categoryId = categoryId;
+    // }
 
     @Override
     public boolean equals(Object o) {
@@ -79,15 +83,23 @@ public class ProductDTO implements Serializable {
         return 31;
     }
 
+    public Category getCategory() {
+        return this.category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     // prettier-ignore
     @Override
     public String toString() {
         return "ProductDTO{" +
-            "id=" + getId() +
-            ", name='" + getName() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", price=" + getPrice() +
-            ", categoryId=" + getCategoryId() +
-            "}";
+                "id=" + getId() +
+                ", name='" + getName() + "'" +
+                ", description='" + getDescription() + "'" +
+                ", price=" + getPrice() +
+                // ", categoryId=" + getCategoryId() +
+                "}";
     }
 }
