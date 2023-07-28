@@ -1,5 +1,7 @@
 package com.blazenn.ecommerce.web.rest;
 
+import com.blazenn.ecommerce.domain.User;
+import com.blazenn.ecommerce.repository.UserRepository;
 import com.blazenn.ecommerce.security.jwt.JWTFilter;
 import com.blazenn.ecommerce.security.jwt.TokenProvider;
 import com.blazenn.ecommerce.web.rest.vm.LoginVM;
@@ -15,6 +17,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 /**
@@ -26,11 +30,14 @@ public class UserJWTController {
 
     private final TokenProvider tokenProvider;
 
+    private final UserRepository userRepository;
+
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
-    public UserJWTController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder) {
+    public UserJWTController(TokenProvider tokenProvider, AuthenticationManagerBuilder authenticationManagerBuilder, UserRepository userRepository) {
         this.tokenProvider = tokenProvider;
         this.authenticationManagerBuilder = authenticationManagerBuilder;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/authenticate")
@@ -40,9 +47,10 @@ public class UserJWTController {
             new UsernamePasswordAuthenticationToken(loginVM.getEmail(), loginVM.getPassword());
 
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(loginVM.getEmail());
         SecurityContextHolder.getContext().setAuthentication(authentication);
         boolean rememberMe = (loginVM.isRememberMe() == null) ? false : loginVM.isRememberMe();
-        String jwt = tokenProvider.createToken(authentication, rememberMe);
+        String jwt = tokenProvider.createToken(authentication, rememberMe, existingUser.get().getId().toString());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new JWTToken(jwt), httpHeaders, HttpStatus.OK);
