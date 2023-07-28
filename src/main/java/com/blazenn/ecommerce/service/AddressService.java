@@ -3,6 +3,7 @@ package com.blazenn.ecommerce.service;
 import com.blazenn.ecommerce.domain.Address;
 import com.blazenn.ecommerce.repository.AddressRepository;
 import com.blazenn.ecommerce.service.dto.AddressDTO;
+import com.blazenn.ecommerce.service.dto.UserDTO;
 import com.blazenn.ecommerce.service.mapper.AddressMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +28,18 @@ public class AddressService {
 
     private final AddressMapper addressMapper;
 
-    public AddressService(AddressRepository addressRepository, AddressMapper addressMapper) {
+    private final UserService userService;
+
+    public AddressService(AddressRepository addressRepository, AddressMapper addressMapper, UserService userService) {
         this.addressRepository = addressRepository;
         this.addressMapper = addressMapper;
+        this.userService = userService;
+    }
+
+    private static class AccountResourceException extends RuntimeException {
+        private AccountResourceException(String message) {
+            super(message);
+        }
     }
 
     /**
@@ -40,6 +50,10 @@ public class AddressService {
      */
     public AddressDTO save(AddressDTO addressDTO) {
         log.debug("Request to save Address : {}", addressDTO);
+        UserDTO user = userService.getUserWithAuthorities()
+        .map(UserDTO::new)
+        .orElseThrow(() -> new AccountResourceException("User could not be found"));
+        addressDTO.setUserId(user.getId());
         Address address = addressMapper.toEntity(addressDTO);
         address = addressRepository.save(address);
         return addressMapper.toDto(address);
