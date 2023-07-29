@@ -3,6 +3,7 @@ package com.blazenn.ecommerce.service.dto;
 import javax.validation.constraints.*;
 
 import com.blazenn.ecommerce.domain.Category;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -24,7 +25,8 @@ public class ProductDTO implements Serializable {
 
     private Category category;
 
-    // private Long categoryId;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Long categoryId;
 
     public Long getId() {
         return id;
@@ -58,13 +60,13 @@ public class ProductDTO implements Serializable {
         this.price = price;
     }
 
-    // public Long getCategoryId() {
-    //     return categoryId;
-    // }
+    public Long getCategoryId() {
+        return categoryId;
+    }
 
-    // public void setCategoryId(Long categoryId) {
-    //     this.categoryId = categoryId;
-    // }
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -99,7 +101,8 @@ public class ProductDTO implements Serializable {
                 ", name='" + getName() + "'" +
                 ", description='" + getDescription() + "'" +
                 ", price=" + getPrice() +
-                // ", categoryId=" + getCategoryId() +
+                ", categoryId=" + getCategoryId() +
+                // " categoryName" + getCategory().getName() +
                 "}";
     }
 }

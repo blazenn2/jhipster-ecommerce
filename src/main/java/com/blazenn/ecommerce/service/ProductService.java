@@ -1,8 +1,11 @@
 package com.blazenn.ecommerce.service;
 
+import com.blazenn.ecommerce.domain.Category;
 import com.blazenn.ecommerce.domain.Product;
 import com.blazenn.ecommerce.repository.ProductRepository;
+import com.blazenn.ecommerce.service.dto.CategoryDTO;
 import com.blazenn.ecommerce.service.dto.ProductDTO;
+import com.blazenn.ecommerce.service.mapper.CategoryMapper;
 import com.blazenn.ecommerce.service.mapper.ProductMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +30,22 @@ public class ProductService {
 
     private final ProductMapper productMapper;
 
-    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
+    private final CategoryService categoryService;
+
+    private final CategoryMapper categoryMapper;
+
+
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper, CategoryService categoryService, CategoryMapper categoryMapper) {
         this.productRepository = productRepository;
         this.productMapper = productMapper;
+        this.categoryService = categoryService;
+        this.categoryMapper = categoryMapper;
+    }
+
+    private static class CategoryResourceException extends RuntimeException {
+        private CategoryResourceException(String message) {
+            super(message);
+        }
     }
 
     /**
@@ -40,6 +56,11 @@ public class ProductService {
      */
     public ProductDTO save(ProductDTO productDTO) {
         log.debug("Request to save Product : {}", productDTO);
+        if (productDTO.getCategoryId() != null) {
+            CategoryDTO categoryDTO = categoryService.findOne(productDTO.getCategoryId()).orElseThrow(() -> new CategoryResourceException("Category could not be found"));
+            Category category = categoryMapper.toEntity(categoryDTO);
+            productDTO.setCategory(category);
+        }
         Product product = productMapper.toEntity(productDTO);
         product = productRepository.save(product);
         return productMapper.toDto(product);
