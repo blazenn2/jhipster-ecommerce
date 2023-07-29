@@ -1,9 +1,13 @@
 package com.blazenn.ecommerce.service;
 
 import com.blazenn.ecommerce.domain.Order;
+import com.blazenn.ecommerce.domain.User;
 import com.blazenn.ecommerce.repository.OrderRepository;
 import com.blazenn.ecommerce.service.dto.OrderDTO;
+import com.blazenn.ecommerce.service.dto.UserDTO;
 import com.blazenn.ecommerce.service.mapper.OrderMapper;
+import com.blazenn.ecommerce.service.mapper.UserMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,9 +31,21 @@ public class OrderService {
 
     private final OrderMapper orderMapper;
 
-    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper) {
+    private final UserMapper userMapper;
+
+    private final UserService userService;
+
+    public OrderService(OrderRepository orderRepository, OrderMapper orderMapper, UserService userService, UserMapper userMapper) {
         this.orderRepository = orderRepository;
         this.orderMapper = orderMapper;
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
+
+    private static class AccountResourceException extends RuntimeException {
+        private AccountResourceException(String message) {
+            super(message);
+        }
     }
 
     /**
@@ -39,8 +55,14 @@ public class OrderService {
      * @return the persisted entity.
      */
     public OrderDTO save(OrderDTO orderDTO) {
+        UserDTO user = userService.getUserWithAuthorities()
+        .map(UserDTO::new)
+        .orElseThrow(() -> new AccountResourceException("User could not be found"));
+        log.debug("Dataa of userDTO in orders: {}", user);
+        User userEntity = userMapper.userDTOToUser(user);
         log.debug("Request to save Order : {}", orderDTO);
         Order order = orderMapper.toEntity(orderDTO);
+        order.setUser(userEntity);
         order = orderRepository.save(order);
         return orderMapper.toDto(order);
     }
