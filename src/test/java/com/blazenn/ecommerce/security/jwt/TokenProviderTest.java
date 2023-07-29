@@ -48,7 +48,7 @@ public class TokenProviderTest {
     @Test
     public void testReturnFalseWhenJWTisMalformed() {
         Authentication authentication = createAuthentication();
-        String token = tokenProvider.createToken(authentication, false);
+        String token = tokenProvider.createToken(authentication, false, "1");
         String invalidToken = token.substring(1);
         boolean isTokenValid = tokenProvider.validateToken(invalidToken);
 
@@ -60,7 +60,7 @@ public class TokenProviderTest {
         ReflectionTestUtils.setField(tokenProvider, "tokenValidityInMilliseconds", -ONE_MINUTE);
 
         Authentication authentication = createAuthentication();
-        String token = tokenProvider.createToken(authentication, false);
+        String token = tokenProvider.createToken(authentication, false, "1");
 
         boolean isTokenValid = tokenProvider.validateToken(token);
 
